@@ -22,8 +22,8 @@ public class SearchUser1 extends HttpServlet {
 
         User user =(User) session.load(User.class,5);
         
-        user.setName("Gayan");
-        session.update(user);
+        
+        session.delete(user);
         
         session.beginTransaction().commit();
         session.close();

@@ -25,14 +25,13 @@ public class SearchUser1 extends HttpServlet {
         Session session = sessionFactory.openSession();
 
         Criteria criteria = session.createCriteria(User.class);
-
-//        criteria.add(Restrictions.like("mobile", "075%"));
-        criteria.add(Restrictions.like("mobile", "075",MatchMode.START));
-
         ArrayList<User> userList = (ArrayList<User>) criteria.list();
 
         for (User user : userList) {
             System.out.println(user.getId());
+            System.out.println(user.getName());
+            System.out.println(user.getMobile());
+            System.out.println(user.getCountry().getName());
         }
         session.close();
     }

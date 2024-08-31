@@ -12,6 +12,7 @@ import model.User;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 
 @WebServlet(name = "SearchUser1", urlPatterns = {"/SearchUser1"})
@@ -24,10 +25,10 @@ public class SearchUser1 extends HttpServlet {
         Session session = sessionFactory.openSession();
 
         Criteria criteria = session.createCriteria(User.class);
-        
-        criteria.add(Restrictions.eq("name", "Sahan"));
-        criteria.add(Restrictions.eq("mobile", "0710000125"));
-        
+
+//        criteria.add(Restrictions.like("mobile", "075%"));
+        criteria.add(Restrictions.like("mobile", "075",MatchMode.START));
+
         ArrayList<User> userList = (ArrayList<User>) criteria.list();
 
         for (User user : userList) {

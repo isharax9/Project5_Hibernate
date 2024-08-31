@@ -12,6 +12,7 @@ import model.User;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 
 @WebServlet(name = "SearchUser1", urlPatterns = {"/SearchUser1"})
 public class SearchUser1 extends HttpServlet {
@@ -22,12 +23,15 @@ public class SearchUser1 extends HttpServlet {
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
 
-        //SELECT * FROM user'
         Criteria criteria = session.createCriteria(User.class);
+        
+        criteria.add(Restrictions.eq("name", "Sahan"));
+        criteria.add(Restrictions.eq("mobile", "0710000125"));
+        
         ArrayList<User> userList = (ArrayList<User>) criteria.list();
 
         for (User user : userList) {
-            System.out.println(user.getName());
+            System.out.println(user.getId());
         }
         session.close();
     }

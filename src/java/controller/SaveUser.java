@@ -27,6 +27,7 @@ public class SaveUser extends HttpServlet {
         session.save(user);
         session.beginTransaction().commit();
         
+        session.close();
     }
 
 }

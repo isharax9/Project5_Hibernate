@@ -17,6 +17,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 @WebServlet(name = "SearchUser1", urlPatterns = {"/SearchUser1"})
@@ -28,14 +29,17 @@ public class SearchUser1 extends HttpServlet {
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         Criteria criteria1 = session.createCriteria(User.class);
-        criteria1.addOrder(Order.asc("name"));
+        criteria1.setProjection(
+                Projections.distinct(
+                        Projections.property("name")
+                )
+        );
 
-        List<User> userList = criteria1.list();
+        List<String> nameList = criteria1.list();
 
-        for (User user : userList) {
-            System.out.println(user.getName());
+        for (String name : nameList) {
+            System.out.println(name);
         }
-
 
         session.close();
     }

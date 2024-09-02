@@ -57,11 +57,4 @@ public class User implements Serializable {
         this.mobile = mobile;
     }
 
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
-    }
 }

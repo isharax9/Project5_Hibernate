@@ -26,14 +26,18 @@ public class SearchUser1 extends HttpServlet {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
 
-        Criteria criteria = session.createCriteria(Country.class);
+        Criteria criteria1 = session.createCriteria(Country.class);
+        criteria1.add(Restrictions.eq("name", "SWD"));
 
-        criteria.add(Restrictions.eq("name", "LK"));
+        //Country country = (Country) criteria.list().get(0);
+        Country country = (Country) criteria1.uniqueResult();
 
-//        Country country = (Country) criteria.list().get(0);
-        Country country = (Country) criteria.uniqueResult();
+        //List<User> userList = country.getUserList();
+        
+        Criteria criteria2 = session.createCriteria(User.class);
+        criteria2.add(Restrictions.eq("country", country));
 
-        List<User> userList = country.getUserList();
+        List<User> userList = criteria2.list();
 
         for (User user : userList) {
             System.out.println(user.getName());

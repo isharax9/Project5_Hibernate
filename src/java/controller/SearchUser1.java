@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +13,7 @@ import model.Country;
 import model.HibernateUtil;
 import model.User;
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
@@ -28,19 +30,16 @@ public class SearchUser1 extends HttpServlet {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
 
-        Criteria criteria1 = session.createCriteria(User.class);
-        criteria1.setProjection(
-                Projections.distinct(
-                        Projections.property("name")
-                )
-        );
+        SQLQuery query = session.createSQLQuery("SELECT * FROM `user`");
+        query.addEntity(User.class);
 
-        List<String> nameList = criteria1.list();
+        List<User> userList = query.list();
 
-        for (String name : nameList) {
-            System.out.println(name);
+        for (User user : userList) {
+            System.out.println(user.getName());
         }
 
         session.close();
+
     }
 }

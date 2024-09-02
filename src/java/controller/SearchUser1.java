@@ -14,6 +14,7 @@ import model.User;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 
@@ -23,18 +24,21 @@ public class SearchUser1 extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session session = sessionFactory.openSession();
+        Session session = HibernateUtil.getSessionFactory().openSession();
 
-        Country country = (Country) session.load(Country.class, 1);
+        Criteria criteria = session.createCriteria(Country.class);
+
+        criteria.add(Restrictions.eq("name", "LK"));
+
+//        Country country = (Country) criteria.list().get(0);
+        Country country = (Country) criteria.uniqueResult();
 
         List<User> userList = country.getUserList();
 
         for (User user : userList) {
-
             System.out.println(user.getName());
-
         }
+
         session.close();
     }
 

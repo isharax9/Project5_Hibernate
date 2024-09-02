@@ -16,6 +16,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 @WebServlet(name = "SearchUser1", urlPatterns = {"/SearchUser1"})
@@ -26,25 +27,15 @@ public class SearchUser1 extends HttpServlet {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
 
-        Criteria criteria1 = session.createCriteria(Country.class);
-        criteria1.add(
-                Restrictions.or(
-                        Restrictions.eq("name", "LK"),
-                        Restrictions.eq("name", "SWD")
-                )
-        );
+        Criteria criteria1 = session.createCriteria(User.class);
+        criteria1.addOrder(Order.asc("name"));
 
-        List<Country> countryList = criteria1.list();
-
-        Criteria criteria2 = session.createCriteria(User.class);
-        criteria2.add(
-                Restrictions.in("country", countryList));
-
-        List<User> userList = criteria2.list();
+        List<User> userList = criteria1.list();
 
         for (User user : userList) {
             System.out.println(user.getName());
         }
+
 
         session.close();
     }
